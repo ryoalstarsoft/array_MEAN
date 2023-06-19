@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        {% include "../partials/base_header.html" %}
+
+        {% block headSuffix %}{% endblock %}
+    </head>
+
+    <body class="array array-{{ currentView }}">
+        {% include "../partials/login.modal.html" %}
+
+        <div id="page" class="site">
+            {% include "../partials/header_bar_blank.html" %}
+
+            <div id="content" class="site-content">
+                {% block content %}{% endblock %}
+            </div><!-- #content -->
+
+            {% include "../partials/footer.html" %}
+        </div><!-- #page -->
+
+        {% include "../partials/survicate.html" %}
+
+        {% include "../partials/intercom.html" %}
+        {% include "../partials/userengage.html" %}
+
+        <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/javascripts/main.js"></script>
+        <script type="text/javascript" src="/javascripts/banner.js"></script>
+    </body>
+
+    {% if env.FE_LIVERELOAD == "true" %}
+    <script src="//localhost:35729/livereload.js"></script>
+    {% endif %}
+</html>

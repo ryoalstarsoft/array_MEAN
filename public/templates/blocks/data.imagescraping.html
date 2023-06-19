@@ -1,0 +1,104 @@
+<md-dialog md-no-ink aria-label="Image Scraping" class="field-dialog">
+    <aa-toolbar title="Image Scraping" class=""></aa-toolbar>
+    <md-dialog-content>
+        <form name="dialog.form">
+
+    
+            <div ng-repeat="key in keys track by $index" >
+
+                <div layout="row" layout-align="start center">
+                    <md-input-container>
+                      <label>Use As </label>
+
+                    
+                        <md-select required name="key_{{$index}}" ng-model="keys[$index]" ng-change="replaceKey(key,$index)">
+                            <md-option ng-repeat="opt in selectOptions" value="{{opt.value}}">
+                                {{opt.name}}
+                            </md-option>
+                        </md-select>
+
+                    </md-input-container>
+
+                     <span flex="5"></span>
+
+                    <md-input-container flex>
+                        <label>URL Source Field</label>
+                        <md-select required name="imageScraping_{{key}}_fieldName"
+                                   ng-model="data[key].fieldName">
+                            <md-option ng-repeat="column in dataset.columns" value="{{column.name}}">
+                                {{column.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                     <span flex="5"></span>
+
+                     <span class="dashboard-list-icon warn" ng-click="removeImageToScrap(keys[$index]);" aria-hidden="true"
+                        aria-label="Remove Image to Scrape" flex="5">
+                        <i class="fa fa-remove" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                &ensp;<a href="#" ng-click="data[key].showAdvanced=!data[key].showAdvanced;">Advanced</a>
+
+
+                <div ng-show="data[key].showAdvanced==true">
+
+                    <div layout="row">
+
+                        <md-input-container class="md-block" flex="50">
+                            <label>Prepend To Image URL</label>
+                            <input type="text" name="prepend_{{$index}}" ng-model="data[key].scraped.prependToImageURLs"/>
+                        </md-input-container>
+
+                        <div flex="50">
+
+                            <md-checkbox ng-model="srcset" ng-click="isSrcSet(srcset,data[key].scraped)">Source set</md-checkbox>
+                        </div>
+
+
+                        <md-input-container ng-if="!srcset" class="md-block" flex="50">
+                            <label>Resize</label>
+                            <input type="number" min="1" name="resize_{{$index}}" ng-model="data[key].scraped.resize" />
+                        </md-input-container>
+
+
+                        <md-input-container ng-if="srcset" class="md-block" flex="50">
+                            <label>Size</label>
+                            <input type="number" min="1" name="size_{{$index}}" ng-model="data[key].scraped.size" />
+                        </md-input-container>
+
+                    </div>
+
+                    <md-input-container class="md-block">
+                        <label>Selector</label>
+                        <input type="text" name="selector_{{$index}}" ng-model="data[key].scraped.selector"/>
+                    </md-input-container>
+
+                </div>
+            </div>
+           
+            <md-dialog-actions layout="row" layout-align="space-between center" style="padding-left: 8px">
+
+                <md-button class="md-dashboard" ng-click="addImageToScrap(null)" ng-disabled="keys.indexOf('gridThumb') >= 0 && 
+                    keys.indexOf('original')>=0">
+                    Add another designated field
+                </md-button>
+
+                <div>
+                    <md-button class="md-dashboard cancel" ng-click="cancel()">
+                        <span class="btn-label">Cancel</span>
+                    </md-button>
+                    <md-button class="md-dashboard confirm" ng-click="save()"
+                               ng-disabled="!dialog.form.$dirty || dialog.form.$invalid">
+                        <span class="btn-label">Save</span>
+                    </md-button>
+                </div>
+            </md-dialog-actions>
+
+
+        </form>
+
+    </md-dialog-content>
+
+</md-dialog>

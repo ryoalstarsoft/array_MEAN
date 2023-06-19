@@ -1,0 +1,164 @@
+
+{% extends "../layout/object.html" %}
+
+{% block headSuffix %}
+    <title>Arrays - {{ rowObject.rowParams[fieldKey_objectTitle] }}</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+
+                            <article id="object-id" class="object">
+                                <header class="object-header">
+                                    {% if hasOriginalImage %}
+                                
+                                   
+                                        {% if scrapedImages %}
+                                        
+                                            {% set subdomain = team.subdomain | lower %}
+
+                                            {% set url = retrieveImageURLFromDoc(subdomain,rowObject.pKey,datasetId,'objectDetail')%}
+
+                                            <img src="{{ url }}" class="object-featured img-responsive" scraped="true"/>
+
+                                            <input type="hidden" name="alternativeImgLink" value="{{rowObject.rowParams[fieldKey_originalImageURL]}}">
+
+                                        {% else %}
+                                            <img src="{{ rowObject.rowParams[fieldKey_originalImageURL] }}" class="img-responsive" />
+                                        {% endif %}
+
+                                    {% endif %}
+
+
+                                    {% if not rowObject.rowParams[fieldKey_originalImageURL] and fe_galleryItem_htmlForIconFromRowObjWhenMissingImage %}
+
+                                        <div class="object-header-icons">
+                                            {{ fe_galleryItem_htmlForIconFromRowObjWhenMissingImage(rowObject) | safe }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% set objectTitle = rowObject.rowParams[fieldKey_objectTitle] %}
+                                    <h1 class="object-title">{{ objectTitle if objectTitle else "(Title not specified)" }}</h1>
+
+
+                                    {% if embedded %}
+                       
+                                    {% set mainViewURL = "/" + array_source_key + "/" + main_view + "?embed=true" + ("&" + default_filterJSON if default_filterJSON else "") %}
+                                    <a href="{{ mainViewURL }}">{{ arrayTitle }}</a>
+                                    {% endif %}
+                                </header><!-- .object-header -->
+
+                                {% set strParams = 'embed=true' if embedded %}
+
+                                <div class="object-content">
+                                    <dl>
+
+
+                                    {% for columnName in ordered_colNames_sansObjectTitleAndImages %}
+
+                                        {% set htmlOverrideFn = fe_objectShow_customHTMLOverrideFnsByColumnName[columnName] %}
+                                        {% set columnValue = rowObject.rowParams[columnName] %}
+
+                                        
+                                        {% if columnValue %}
+                                            {% if columnValue | isArray %}
+
+
+                                            <!-- This bit is for listing the relationship fields -->
+                                                {% if columnName == relationshipField %}
+                                                    {% set collatedJoinData = collateJoinData(columnName) %}
+                                                    {% for column, fieldValueArray in collatedJoinData%}
+                                                        <dt> {{columnName + " " + column}} </dt>
+                                                        {% for value, id in fieldValueArray %}
+                                                            <dd>
+
+                                                                <ul class="object-list">
+                                                                    <li class="object-list-item"><a href="{{ buildObjectLink(columnName, value, id) }}" class="color-brand">{{ value }}</a></li>
+                                                                </ul>
+                                                            </dd>
+                                                        {% endfor %}
+                                                        </dt>
+                                                    {% endfor %}
+                                                <!-- end relationship field list -->
+
+                                                {% elif columnValue.length > 0 %}
+                                                    <dt>{{ columnName }}</dt>
+                                                    <dd>
+                                                    {% set shouldLink = false if fieldsNotToLinkAsGalleryFilter_byColName[columnName] else true %}
+                                                    {% if columnValue | length %}
+                                                        <ul class="object-list">
+                                                        {% set sortedArray = columnValue | alphaSortedArray %}
+                                                        {% for arrayMember in sortedArray %}
+
+                                        
+                                                            {% set filterObjForThisFilterColVal = {} | constructedFilterObj(columnName, arrayMember, false) %}
+                                                            {% set arrayMemberText = arrayMember %}
+                                                            {% if shouldLink %}
+                                                                <li class="object-list-item"><a href="{{ ('/' +array_source_key + '/gallery') | constructedRoutePath(filterObjForThisFilterColVal, {embed: embedded,preview: isPreview}) }}" class="color-brand">{{ arrayMemberText }} 
+                                                                </a></li>
+                                                            {% else %}
+                                                                <li class="object-list-item">{{ arrayMemberText | substitutePlainURLs | safe }}</li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                    </dd>
+                                                {% endif %}
+                                            {% else %}
+                                                <dt>{{ columnName }}</dt>
+
+                                                <dd>
+                                                {% set shouldLink = false if fieldsNotToLinkAsGalleryFilter_byColName[columnName] else true %}
+
+                                                {% if shouldLink %} 
+                                                    {% set trueValue = columnValue | removeComma(columnName,dataTypesConversion) %}
+
+                                                    {% set filterObjForThisFilterColVal = {} | constructedFilterObj(columnName, trueValue , false) %}
+                                                    {% if default_filterJSON %}
+                                                        <a href="{{ ('/' + array_source_key + '/gallery' + default_filterJSON) | constructedRoutePath(filterObjForThisFilterColVal, {embed: embedded}) }}" class="color-brand">
+                                                    {% else %}
+                                                        <a href="{{ ('/' + array_source_key + '/gallery') | constructedRoutePath(filterObjForThisFilterColVal, {embed: embedded,preview:isPreview}) }}" class="color-brand">
+                                                    {% endif %}
+                                                {% endif %}
+
+                                                 {% set urlizedField = (htmlOverrideFn(rowObject, columnValue, strParams) | safe if htmlOverrideFn else columnValue) | substitutePlainURLs | safe %}
+
+                                                    {% set isUrlField = false if urlizedField == columnValue else true %}
+                                                    {% if isUrlField %}
+                                                        <span class="color-brand">{{ (htmlOverrideFn(rowObject, columnValue, strParams) | safe if htmlOverrideFn else columnValue) | substitutePlainURLs | safe }}</span>
+                                                    {% else %}   
+
+                                                        {{ (htmlOverrideFn(rowObject, columnValue, strParams) | safe if htmlOverrideFn else columnValue) | substitutePlainURLs | safe }}
+                                                    {% endif %}
+
+                                                {% if shouldLink %}
+                                                    </a>
+                                                {% endif %}
+                                                </dd>
+
+                                                
+                                            {% endif %}
+                                        {% endif %}
+
+
+                                    {% endfor %}
+                                    </dl>
+
+                                </div><!-- .object-content -->
+
+                                <footer class="object-footer">
+    
+                                </footer><!-- .object-footer -->
+                            </article>
+
+                        </div>
+                    </div><!-- .row -->
+                </div>
+{% endblock %}
+
+{% block footer %}
+{% include "../partials/footer.html" %}
+{% endblock %}

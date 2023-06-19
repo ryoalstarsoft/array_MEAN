@@ -1,0 +1,246 @@
+{% set currentView = "bar-chart" %}
+
+{% extends "../layout/array.html" %}
+
+{% import "../partials/dropdown.html" as dropdown %}
+{% import "../partials/search.html" as search %}
+{% import "../partials/filter.html" as filter %}
+
+{% block headSuffix %}
+    <title>Arrays - {{ arrayTitle }}</title>
+{% endblock %}
+
+{% block content %}
+    <section class="array">
+
+        <header class="array-header header-shadow array-header-small clearfix">
+            <div class="container-fluid">
+                <h1 class="array-title">{{ arrayTitle }}{% if isPreview %}<span class="preview-indicator"> (preview)</span>{% endif %}</h1>
+                <div class="array-meta">
+                    {% if team.subdomain | length %}<a class="array-meta-about color-brand" href="{{ addSubdomain(team.subdomain) }}">{{ team.title }}</a>{% endif %}
+                    <span class="array-meta-divider toggle-info-header"><a data-toggle="modal" data-target="#headerModal" class="array-meta-about color-brand">Info</a>
+                </div>
+            </div>
+        </header><!-- .array-header -->
+
+        <!-- Array Header Modal -->
+        <div class="modal header-modal fade" id="headerModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h1 class="array-title">{{ arrayTitle }}{% if isPreview %}<span class="preview-indicator"> (preview)</span>{% endif %}</h1>
+              </div>
+
+              <div class="modal-body">
+                <ul>
+                  {% if team.subdomain | length %}<li class="modal-header-label">Team</li>
+                  <li><a class="color-brand" href="{{ addSubdomain(team.subdomain) }}">{{ team.title }}</a></li>{% endif %}
+                  {% if sourceDocURL %}<li class="modal-header-label">Source</li>
+                  <li><a href="{{ sourceDocURL }}" target="_blank" class="array-meta-about color-brand">{{ sourceDocURL }}</a></li>{% endif %}
+                  <li class="modal-header-label">Last Updated</li>
+                  <li class="array-meta-updated">Updated {{ sourceDoc.dateOfLastImport | dateFormattedAs_monthDayYear_array }}</li>
+                  <li class="modal-header-label">Number of Items</li>
+                  <li>{{ sourceDoc.numberOfRows | comma }}</li>
+                  {% if description %}<li class="modal-header-label">Description</li>
+                  <li><p>{{description}}</p></li>{% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if view_description %}
+           <div class="array-description-wrapper">
+               <p class="array-description">{{ view_description }}</p>
+           </div>
+        {% endif %}
+
+        <div class="array-content">
+
+            <div class="chart-container">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div id="array-controls" class="sort-bar clearfix {{ 'has-description' if view_description }}">
+
+                                <nav class="sort-bar-left pull-left" role="navigation">
+
+                                    {% if colNames_orderedForAggregateByDropdown %}
+                                    {{
+                                    dropdown.sortbar(
+                                        'Y Axis',
+                                        aggregateBy if aggregateBy else defaultAggregateByColumnName_humanReadable,
+                                        colNames_orderedForAggregateByDropdown,
+                                        routePath_base | constructedRoutePath(filterObj, {
+                                            searchCol: searchCol,
+                                            searchQ: searchQ,
+                                            stackBy: stackBy,
+                                            groupBy: groupBy,
+                                            aggregateBy: ''
+                                        })
+                                    )
+                                    }}
+                                    {% endif %}
+
+                                    {% if colNames_orderedForGroupByDropdown %}
+                                    {{
+                                    dropdown.sortbar(
+                                        'X Axis',
+                                        groupBy if groupBy else defaultGroupByColumnName_humanReadable,
+                                        colNames_orderedForGroupByDropdown,
+                                        routePath_base | constructedRoutePath(filterObj, {
+                                            searchCol: searchCol,
+                                            searchQ: searchQ,
+                                            stackBy: stackBy,
+                                            aggregateBy: aggregateBy,
+                                            groupBy: ''
+                                        })
+                                    )
+                                    }}
+                                    {% endif %}
+
+                                    {% if colNames_orderedForStackByDropdown %}
+                                    {{
+                                    dropdown.sortbar
+                                    (
+                                        "Stack By",
+                                        stackBy if stackBy else defaultStackByColumnName_humanReadable,
+                                        colNames_orderedForStackByDropdown,
+                                        routePath_base | constructedRoutePath(filterObj, {
+                                            searchCol: searchCol,
+                                            searchQ: searchQ,
+                                            aggregateBy: aggregateBy,
+                                            groupBy: groupBy,
+                                            stackBy: ''
+                                        })
+                                    )
+                                    }}
+                                    {% endif %}
+
+
+                                </nav>
+
+                                <div class="sort-bar-right pull-right">
+                                    <div class="sort-control">
+                                        <div id="orientation" class="sort-direction" title="Toggle to view in horizontal or vertical mode">
+                                            <span class="horizontal icon-bars-h sort-direction-icon"></span>
+                                            <span class="vertical icon-bars-v sort-direction-icon"></span>
+                                        </div>
+
+                                        <div id="normalization" class="sort-direction" title="Toggle to view in absolute or relative mode">
+                                            <span class="absolute icon-pound sort-direction-icon"></span>
+                                            <span class="relative icon-percent sort-direction-icon"></span>
+                                        </div>
+
+                                        <div id="sort-direction" class="sort-direction" title="Toggle to sort by ascending or descending">
+                                            <span class="icon-sort-ascending sort-direction-icon" aria-hidden="true"></span>
+                                            <span class="icon-sort-descending sort-direction-icon" aria-hidden="true"></span>
+                                        </div>
+                                    </div>
+
+                                    {{
+                                    search.default(
+                                        routePath_base,
+                                        searchCol if searchCol else "Object Title",
+                                        colNames_orderedForSortByDropdown,
+                                        searchQ if searchQ else "",
+                                        null,
+                                        null,
+                                        filterObj
+                                    )
+                                    }}
+
+                                    {% include "../partials/legend-toggle.html" %}
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div><!-- .row -->
+                </div><!-- .container-fluid -->
+
+                {% if isFilterActive %}
+                    {{
+                    filter.default(displayTitleOverrides,
+                        routePath_base | constructedRoutePath(null, {
+                            searchCol: searchCol,
+                            searchQ: searchQ,
+                            aggregateBy: aggregateBy,
+                            groupBy: groupBy,
+                            stackBy: stackBy,
+                            sortBy: sortBy
+                        }),
+                        filterObj,
+                        truesByFilterValueByFilterColumnName_forWhichNotToOutputColumnNameInPill,
+                        false,
+                        'filter-bar-fixed-bottom'
+                    )
+                    }}
+                {% endif %}
+
+                <script type="text/javascript">
+                    // var barColors = {{ barColors | dump | safe }};
+                    var filterObj = {{ filterObj | dump | safe }};
+                    var routePath_withoutFilter = '{{ routePath_base | constructedRoutePath(null, {
+                            searchCol: searchCol,
+                            searchQ: searchQ,
+                            aggregateBy: aggregateBy,
+                            groupBy: groupBy,
+                            stackBy: stackBy,
+                            sortDir: sortDir
+                    }) | safe }}';
+                    var stackBy = '{{ stackBy if stackBy else defaultStackByColumnName_humanReadable }}';
+                    var groupBy = '{{ groupBy if groupBy else defaultGroupByColumnName_humanReadable }}'
+                    var aggregateBy = '{{ aggregateBy if aggregateBy else defaultAggregateByColumnName_humanReadable }}'
+
+                    var options = {
+                        padding: {{ padding if padding else false }}
+                    };
+                </script>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12" id="padding-affects-bar-chart">
+
+                            <div id="bar-chart"></div>
+
+                        </div>
+                    </div><!-- .row -->
+                </div><!-- .container-fluid -->
+
+            </div><!-- .chart-container -->
+
+            <nav class="legend" role="navigation">
+                <button type="button" class="close legend-close" aria-label="Close"><span class="icon-close-big" aria-hidden="true"></span></button>
+                <!-- <h3 class="legend-title">Legend</h3> -->
+                <!-- <p style="padding: 0 0 11px 40px">{{ stackBy }}</p> -->
+                <h3 class="legend-title">{{ stackBy or defaultStackByColumnName_humanReadable }}</h3>
+                <ul class="legend-list"></ul>
+            </nav>
+
+        </div><!-- .array-content -->
+
+    </section>
+{% endblock %}
+
+{% block inlineScript %}
+    {{ super() }}
+
+    <script type="text/javascript" src="/vendors/scrollmagic/scrollmagic/minified/ScrollMagic.min.js"></script>
+    <script type="text/javascript" src="/vendors/d3/d3.js"></script>
+    <script type="text/javascript" src="/javascripts/tooltip.js"></script>
+    <script type="text/javascript" src="/javascripts/barchart/barChart.js"></script>
+    <script type="text/javascript" src="/javascripts/barchart/verticalBarChart.js"></script>
+    <script type="text/javascript" src="/javascripts/barchart/horizontalBarChart.js"></script>
+    <script>
+        var graphData = {{graphData | dump | safe}};
+    </script>
+    <script type="text/javascript" src="/javascripts/barchart/main.js"></script>
+    <script type="text/javascript" src="/javascripts/banner.js"></script>
+
+{% endblock %}

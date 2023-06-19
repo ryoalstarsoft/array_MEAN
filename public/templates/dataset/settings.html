@@ -1,0 +1,110 @@
+<form name="vm.settingsForm" ng-submit="submitForm()" novalidate ng-if="dataset.uid">
+    <md-content layout-padding md-no-ink>
+
+        <h2>Display Settings</h2>
+
+        <h4 class="no-padding">Change your display and publishing settings below.</h4>
+
+        <md-input-container class="md-block" style="margin-top: 45px;">
+            <label>Title</label>
+            <input unique-title required name="title" ng-model="dataset.title" dataset-id="dataset._id" submitting-flag="submitting">
+            <div ng-messages="vm.settingsForm.title.$error">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="titleAvailable">This title is already used on your team.</div>
+            </div>
+
+        </md-input-container>
+
+        <p ng-if="dataset.sample">Sample visualizations cannot be made public.</p>
+
+        <md-input-container class="md-block publish-settings">
+            <label style="margin-bottom: 15px">Privacy settings</label>
+
+            <md-switch ng-model="dataset.isPublic"
+                ng-disabled="!dataset.fe_visible || dataset.sample"
+                aria-label="Make dataset public">
+                Allow anyone to view visualization (not only registered users)
+            </md-switch>
+
+            <md-switch ng-model="dataset.fe_listed"
+                ng-disabled="!dataset.fe_visible || !dataset.isPublic || dataset.sample"
+                aria-label="List dataset">
+                List visualization on your team page
+            </md-switch>
+        </md-input-container>
+
+        <md-input-container ng-if="(dataset.author | isSuperAdmin) && env.node_env !== 'enterprise' " class="md-block publish-settings">
+            <label style="margin-bottom: 15px" id="request-listing">List on arrays.co</label>
+            <md-switch ng-model="showOnArraysCo"
+                ng-change="updateListingOnArrays(showOnArraysCo)"
+                ng-disabled="!dataset.fe_visible || !dataset.isPublic || dataset.sample"
+                aria-label="List visualization on arrays.co">
+                List visualization on arrays.co
+            </md-switch>
+        </md-input-container>
+
+        <div>
+            <md-button ng-hide="dataset.connection || dataset.sample || user.role=='superAdmin' || team.isEnterprise "
+                ng-disabled="dataset.state=='approved' || dataset.state =='pending'|| !dataset.imported"
+                class="md-dashboard" aria-label="More actions menu"
+                ng-click="listOnArraysRequest()">
+
+                <span class="btn-label">Request {{ dataset.state || 'listing on arrays.co' }}</span>
+
+            </md-button>
+            <p ng-if="!(dataset.author | isSuperAdmin) && !dataset.state">Visualization must be imported and listed on team page before making a request to list on array.co.</p>
+        </div>
+
+        <div ng-if="user.role=='superAdmin' && dataset.state && !(dataset.author | isSuperAdmin) " >
+            <h3>Request {{dataset.state}}</h3>
+            <md-button class="md-dashboard" aria-label="Approve Listing On Arrays.co" ng-disabled="dataset.state == 'approved'"
+                ng-click="updateListingOnArrays(true)">
+                Approve
+            </md-button>
+            <md-button class="md-dashboard" aria-label="Approve Listing On Arrays.co" ng-disabled="dataset.state == 'disapproved'"
+                ng-click="updateListingOnArrays(false)">
+                Disapprove
+            </md-button>
+        </div>
+
+        <div>
+            <label style="margin-bottom: 15px">Select a color for your visualization page</label>
+            <aa-color-picker selected="dataset.brandColor"></aa-color-picker>
+        </div>
+
+        <div>
+            <label>Upload an image to showcase your visualization</label> <span class="optional" ng-if="!dataset.banner">(optional)</span>
+
+            <div flex="50">
+                <img class="img-responsive" ng-if="dataset.banner" ng-src="{{makeUrl(dataset.banner)}}" style="margin-bottom: 15px;">
+            </div>
+
+            <input id="banner" type="file" nv-file-select="" uploader="imageUploader" class="team-uploader">
+            <div layout="row" layout-align="start center">
+                <label for="banner" class="md-button md-dashboard" ng-disabled="imageUploader.queue.length > 0" ng-if="!dataset.banner">
+                   Choose File
+                </label>
+                <span><a href="" ng-if="dataset.banner" ng-click="deleteBanner()" class="warn">Remove</a></span>
+            </div>
+        </div>
+
+        <md-input-container class="md-block" style="margin-top: 45px;">
+            <label>Enter a description to display on your team page and arrays.co, if listed <span class="optional">(optional)</span></label>
+            <textarea name="description" ng-model="dataset.description" rows="2"></textarea>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>Enter a link to your source data <span class="optional">(optional)</span></label>
+            <input type="url" name="source_urls" ng-model="dataset.urls[0]">
+            <div ng-messages="vm.settingsForm.source_urls.$error">
+                <div ng-message="url">Please enter a valid url.</div>
+            </div>
+        </md-input-container>
+
+        <div layout="row" layout-align="end center" class="hidden-submit">
+            <md-button class="md-dashboard confirm" type="submit" ng-disabled="vm.settingsForm.$invalid || submitting" md-no-ink>
+                <span class="btn-label">Next</span>
+            </md-button>
+        </div>
+    </md-content>
+</form>

@@ -1,0 +1,418 @@
+/* @override
+	http://localhost:9080/stylesheets/module/sort-bar.css */
+
+#array-controls {
+	z-index: 1;
+	background-color: transparent;
+}
+
+/* @group Sort Bar */
+
+.sort-bar {
+	position: relative;
+	z-index: 1;
+	padding-top: 15px;
+	/*padding-bottom: 15px;*/
+}
+
+.sort-bar.has-description {
+	border-top: 1px solid var(--color-divider);
+    margin-top: -1px;
+}
+
+@media (min-width: 768px) {
+	.sort-bar-left, .sort-bar-right {
+        max-width: 50%;
+	}
+}
+
+.sort-control {
+	display: inline-block;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	padding-right: 0;
+	padding-left: 0;
+	vertical-align: top;
+}
+
+.sort-control:last-child,
+.sort-control.visible-xs {
+	margin-right: 0;
+}
+
+.sort-direction {
+	/*margin-right: 0;*/
+    margin-left: 8px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    transition: border 400ms;
+    cursor: pointer;
+}
+.sort-direction:first-child {
+    margin-left: 0;
+}
+
+.sort-direction span,
+.sort-direction-icon {
+	color: black;
+    transition: color 0.15s;
+}
+.sort-direction-icon {
+    font-size: 24px;
+}
+.sort-control .dropdown-toggle {
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+/*overrides brandcolor hover*/
+/*.array-controls-pinned .sort-control .dropdown-toggle-label .label*/
+.sort-control.open .dropdown-toggle-label span.label,
+.sort-control .dropdown-toggle-label span.label {
+    color: var(--color-text-light);
+}
+/*.array-controls-pinned .sort-control .dropdown-toggle-label .sort-criteria*/
+.sort-control .dropdown-toggle-label span.sort-criteria {
+    color: var(--color-text-dark);
+}
+
+#array-controls .sort-bar-left .dropdown-toggle,
+#array-controls .sort-control-right,
+.map-container .sort-bar-left .dropdown-toggle,
+.map-container .sort-control-right {
+    padding-right: 12px;/**/
+    border: 1px solid #fff;
+    transition: border 400ms;
+}
+
+.sort-control #search-by.dropdown-toggle {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.sort-control .dropdown-toggle:hover,
+.sort-control .dropdown-toggle:focus,
+.sort-control .dropdown-toggle:active {
+	box-shadow: none;
+}
+
+.dropdown .sort-control .search-control {
+    padding-top: 0;
+}
+
+/*add border on map or on scroll;*/
+.array-controls-pinned #array-controls .sort-bar-left .dropdown-toggle,
+.array-controls-pinned #array-controls .sort-control-right,
+.array-controls-pinned #array-controls .sort-direction,
+.array-controls-pinned #array-controls .search-toggle,
+.map-container .sort-bar-left .dropdown-toggle,
+.map-container .sort-control-right {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+.map-container .sort-bar-left .dropdown-toggle {
+    padding-bottom: 8px;
+}
+/*.map-container*/
+.sort-control-right {
+    border-radius: 4px;
+    padding-bottom: 4px;
+}
+
+.sort-criteria,
+.search-criteria {
+	color: var(--color-text-dark);
+	font-weight: 600;
+}
+
+.sort-control .dropdown-menu {
+	overflow-y: auto;
+	max-height: calc(100vh - 300px);
+}
+
+.sort-control .dropdown-menu > li > a,
+.sort-control .dropdown-menu > li.search-dropdown-label > span {
+	padding: 15px 35px 15px 20px;
+	font-size: 18px;
+}
+
+.sort-control .dropdown-menu > li.search-dropdown-label > span {
+    display: block;
+    color: var(--color-text-dark);
+    font-weight: 600;
+}
+
+.sort-control .dropdown-menu > li > a:hover {
+	/*color: var(--color-text-dark);*/
+}
+
+/*active state should also be on other dropdowns*/
+/*.dropdown-menu > li.search-dropdown-item-active a {
+    font-weight: 600;
+}*/
+
+/* @end Sort Bar */
+
+/* @group Search form */
+
+.search-input {
+	display: inline-block;
+	padding: 0;
+    padding-left: 12px;
+	width: 220px;
+	height: auto;
+	border-style: none;
+	border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+	vertical-align: baseline;
+	font-size: 18px;
+	line-height: 25px;
+	font-family: var(--font-family-calibre);
+    transition: width 0.3s;
+}
+
+.search-input:focus {
+	box-shadow: none;
+}
+
+.search-icon {
+	position: relative;
+	display: inline-block;
+	margin-top: -3px;
+	margin-bottom: -3px;
+	width: 1em;
+	color: var(--color-text-dark);
+	line-height: 1em;
+}
+
+.search-by-label {
+	font-size: 18px;
+	color: var(--color-text-light);
+}
+
+@media (min-width: 768px) {
+	.form-search .sort-control {
+	    padding-top: 6px;
+	}
+}
+
+.form-search .sort-control .dropdown-toggle {
+    padding-left: 0;
+}
+.form-search .sort-control .dropdown-toggle-button-has-caret:before {
+    top: -4px;
+}
+#search-by.dropdown-toggle-button-has-caret:before {
+    right: -2px;
+}
+
+/* @end Search form */
+
+/* @group Mobile Search */
+
+.form-search {
+	position: relative;
+}
+
+.search-toggle .search-icon {
+	top: 2px;
+}
+
+.search-toggle:hover .search-icon,
+.search-toggle.search-active .search-icon {
+	/*color: var(--color-primary);*/
+	cursor: pointer;
+}
+
+.mobile-search-popover {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	.mobile-search-popover {
+		display: block;
+	}
+}
+
+@media (max-width: 767px) {
+	.mobile-search-popover.search-open {
+		position: absolute;
+		top: 0;
+		right: 60px;
+		display: block;
+		width: calc(100vw - 105px);
+	}
+
+	#page .search-toggle {
+		display: inline-block;
+		padding-right: 10px;
+		padding-left: 0px;
+		padding-top: 8px;
+	}
+
+	.dropdown-panel.search-open,
+	.mobile-search-popover.search-open .dropdown-toggle-button-group {
+		padding: 15px;
+		border-width: 1px;
+		border-style: solid;
+		border-color: #ffffff;
+		border-radius: 4px;
+		background-color: var(--color-background);
+		box-shadow: var(--box-shadow-dark);
+	}
+
+	.mobile-search-popover.search-open .sort-control {
+		display: block;
+		margin-right: 0;
+        padding: 0;
+	}
+
+    .mobile-search-popover.search-open .search-control {
+        padding-bottom: 10px;
+    }
+
+    .map-container .sort-control-right {
+        border: none;
+    }
+
+	.mobile-search-popover.search-open .dropdown-toggle {
+		padding: 5px 0;
+		width: 100%;
+		border-style: none;
+		text-align: left;
+	}
+
+	.mobile-search-popover.search-open .search-input {
+		padding: 14px 15px;
+		width: 100%;
+		border-style: solid;
+		border-color: var(--color-divider);
+		border-radius: 4px;
+		border-radius: 1px;
+		background-color: #ffffff;
+	}
+
+	.dropdown-panel.search-open .search-icon {
+		display: none;
+	}
+}
+
+/* @end Mobile Search */
+
+/* @group Mobile Sort Dropdowns */
+
+@media (max-width: 767px) {
+	.sort-bar-left {
+		width: calc(100% - 51px);
+	}
+
+	.sort-bar-left .dropdown-toggle {
+		max-width: 100%;
+	}
+
+	.dropdown-toggle-label {
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.sort-bar-6 {
+		margin-right: -0.25em;
+		padding-right: 15px;
+		max-width: 50%;
+	}
+
+	.sort-bar-right.pull-right {
+		float: none !important;
+		position: relative;
+		pointer-events: none;
+	}
+
+	.sort-control {
+		display: block;
+		/*margin: 0 0 8px;*/
+	}
+
+	.array-gallery .dropdown.sort-control {
+		display: inline-block;
+		max-width: 260px;
+	}
+
+	.sort-control.sort-direction {
+		display: inline-block;
+	}
+
+	.sort-bar-right .sort-control {
+		display: inline-block;
+		pointer-events: all;
+	}
+
+	/*.sort-control > a {
+		display: block;
+	}*/
+
+	.form-search {
+		position: absolute;
+		right: 0;
+		top: 0;
+		pointer-events: all;
+	}
+}
+
+/* @end Mobile Sort Dropdowns */
+
+/* @group Filter Bar */
+
+.filter-bar {
+	/*padding-top: 20px;*/
+	padding-bottom: 5px;
+}
+
+.filter-label {
+	display: inline-block;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	vertical-align: top;
+}
+
+.filter-bar-fixed-bottom {
+	position: fixed;
+	bottom: 0;
+	padding-bottom: 30px;
+	z-index: 1;
+}
+
+.filter-tag {
+	display: inline-block;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	/*margin-left: 5px;*/
+	padding: 5px 0 5px 15px;
+	border-width: 1px;
+	border-style: solid;
+    border-color: #eee;
+	border-radius: 1000px;
+	background-color: #ffffff;
+	color: var(--color-text-light);
+	font-weight: normal;
+	font-size: 18px;
+}
+
+.filter-tag .close {
+    font-size: 27px;
+}
+
+.filter-bar-fixed-bottom .filter-tag {
+	box-shadow: var(--box-shadow);
+}
+
+/* @end Filter Bar */
+
+.filter-count {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	color: var(--color-sort-bar-label);
+	text-align: right;
+	font-size: 16px;
+}

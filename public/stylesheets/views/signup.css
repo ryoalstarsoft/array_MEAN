@@ -1,0 +1,43 @@
+h1.signup {
+    margin-bottom: 60px;
+}
+
+form.signup label {
+	font-size:15px;
+}
+
+.red {
+	color:red;
+}
+
+a.pointer {
+	cursor: pointer;
+}
+div.float-parent {
+	overflow: hidden;
+}
+
+div.reminder-message {
+	margin-top: 30px;
+}
+
+.signupOr {
+	margin:50px;
+}
+
+.row .socialButtons .socialButtonsText {
+	padding-left:10px;
+	cursor: pointer;
+}
+
+div.signup_btn_group {
+	overflow: hidden;
+}
+
+button.signupstep {
+	min-width:100px;
+}
+
+.span-tos {
+	margin-left: 8px;
+}

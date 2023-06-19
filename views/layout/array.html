@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        {% include "../partials/base_header.html" %}
+
+        {% block headSuffix %}{% endblock %}
+    </head>
+    <body class="array array-{{ currentView }} source-{{ array_source_key }} legend-open {{ "view-embedded" if embedded == "true" }}">
+        {% include "../partials/login.modal.html" %}
+
+        <div id="page" class="site">
+
+            {% set hasPreview = routePath_base | extractPreviewFromBasePath %}
+
+            {% include "../partials/header_bar_array.html" %}
+            {% include "../partials/sidebar_filter.html" %}
+
+            <div id="content" class="site-content">
+
+                {% block content %}{% endblock %}
+
+            </div><!-- #content -->
+
+            {% block footer %}{% endblock %}
+        </div><!-- #page -->
+
+        {% include "../partials/modal.html" %}
+
+        {% include "../partials/survicate.html" %}
+
+        {% include "../partials/intercom.html" %}
+        {% include "../partials/userengage.html" %}
+
+        {% block inlineScript %}
+            <script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="/vendors/sharrre/jquery.sharrre.min.js"></script>
+            <script type="text/javascript" src="/javascripts/main.js"></script>
+        {% endblock %}
+    </body>
+
+    {% if env.FE_LIVERELOAD == "true" %}
+    <script src="//localhost:35729/livereload.js"></script>
+    {% endif %}
+</html>

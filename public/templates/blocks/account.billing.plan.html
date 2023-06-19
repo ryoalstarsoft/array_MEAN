@@ -1,0 +1,25 @@
+<div ng-if="subscription.state === 'active' || subscription.state === 'canceled' || subscription.state === 'expired'">
+    <h2>Plan Summary</h2>
+
+    <div class="md-headline">{{ plan.name }}</div>
+
+    <div ng-if="plan.display_quantity._ === 'true'">
+        {{ subscription.quantity._ }} {{ subscription.quantity._ | pluralize: 'Seat' : 'Seats' }}
+        <br />
+        <strong>{{ plan.unit_amount_in_cents.USD._ / 100 | currency : $ : 0 }}</strong> <span ng-if="plan.plan_interval_length._ === '1'">Per seat, per month</span>
+        <span ng-if="plan.plan_interval_length._ === '12'">Per seat, per year</span>
+
+        <br />
+    </div>
+    
+    <span ng-if="plan.plan_interval_length._ === '1'"><strong>Total per month:</strong> {{ plan.unit_amount_in_cents.USD._ * subscription.quantity._ / 100 | currency : $ : 0 }}</span>
+
+    <span ng-if="plan.plan_interval_length._ === '12'"><strong>Total per year:</strong> {{ plan.unit_amount_in_cents.USD._ * subscription.quantity._ / 100 | currency : $ : 0 }}</span>
+    <br />
+
+    <div ng-if="plan.plan_interval_length._ === '1'">Billed monthly</div>
+    <div ng-if="plan.plan_interval_length._ === '12'">Billed annually</div>
+    <br />
+
+    <strong ng-if="subscription.state === 'canceled'">Subscription expires {{ subscription.current_period_ends_at._ | date: 'MM/dd/yyyy' }}</strong>
+</div>

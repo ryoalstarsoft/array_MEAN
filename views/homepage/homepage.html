@@ -1,0 +1,167 @@
+{% extends "../layout/homepage.html" %}
+
+{% block headSuffix %}
+    <title>Arrays</title>
+{% endblock %}
+
+{% block content %}
+
+    <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
+                    <!-- <div class="splash-logo">
+                        <img src="/images/arrays-logo-color-shapes.svg" class="img-responsive" alt="Arrays logo" />
+                    </div> -->
+                    <div class="splash-logo-letters">
+                        <img id="letter_1" class="letter" src="/images/letters/letters_a1.png"><img id="letter_2" class="letter" src="/images/letters/letters_r1.png"><img id="letter_3" class="letter" src="/images/letters/letters_r1.png"><img id="letter_4" class="letter" src="/images/letters/letters_a1.png"><img id="letter_5" class="letter" src="/images/letters/letters_y1.png"><img id="letter_6" class="letter" src="/images/letters/letters_s1.png">
+                    </div>
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+                    <h1 class="splash-intro text-center">Your data, made beautiful.</h1>
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                {{h}}
+                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3">
+                    <a href="{{explore_url}}" class="btn btn-block btn-splash">Explore Arrays</a>
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-md-3 col-sm-offset-0">
+                    {% if env.NODE_ENV == 'production' %}
+                    <a href="http://eepurl.com/bX4NAT" class="btn btn-block btn-splash" target="_blank">Sign up for updates</a>
+                    {% else %}
+                    <button id="login" class="btn btn-block btn-splash">Sign Up / Log In</button>
+                    {% endif %}
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="splash-devices">
+                        <img src="/images/splash/arrays-devices.jpg" class="img-responsive" alt="The Arrays app running on a Macbook, iPad, and iPhone" />
+                    </div>
+                </div>
+            </div><!-- .row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class='embed-container'><iframe src='https://player.vimeo.com/video/182013765?color=ffffff&title=0&byline=0&portrait=0' frameborder='0' allowfullscreen></iframe></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-md-offset-1">
+                    <div class="splash-benefits">
+                        <h2 class="splash-benefits-title">Engaging</h2>
+                        <p class="splash-benefits-description">And now there is a easy way to get your data online and reach more people. With Arrays, create a website to publish your data as an engaging, interactive experience—mobile-ready, social, and SEO friendly.</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-5">
+                    <div class="splash-benefits">
+                        <h2 class="splash-benefits-title">Simple</h2>
+                        <p class="splash-benefits-description">Arrays is easy to use by anyone with a web browser. No expertise required. Anyone can browse and understand your data using a delightful and intuitive user interface.</p>
+                    </div>
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-md-offset-1">
+                    <div class="splash-benefits">
+                        <h2 class="splash-benefits-title">Open</h2>
+                        <p class="splash-benefits-description">Your audience can playfully and effortlessly discover and share insights through stunning, interactive data visualizations. Users can share any visualization on social media, add their own annotations, even remix data.</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-5">
+                    <div class="splash-benefits">
+                        <h2 class="splash-benefits-title">All-in-one.</h2>
+                        <p class="splash-benefits-description">Arrays is an all-in-one solution—easy to set up and maintain. Select from a variety of views to visualize your data, and customize the design to make it your own.</p>
+                    </div>
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="splash-macbook">
+                        <img src="/images/splash/arrays-macbook.jpg" class="img-responsive" alt="The Arrays app running on a Macbook showing the map view" />
+                    </div>
+                </div>
+            </div><!-- .row -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="splash-scenarios-title text-center">Endless possibilities</h2>
+                </div>
+                <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+                    <ul class="splash-scenarios-list">
+                        <li class="splash-scenarios-list-item">Create an <strong>interactive product gallery</strong> for your business.</li>
+                        <li class="splash-scenarios-list-item">Publish your <strong>art, design or photography collection</strong>.</li>
+                        <li class="splash-scenarios-list-item">Make your <strong>research</strong> accessible and highly visual.</li>
+                        <li class="splash-scenarios-list-item">Create a central place for <strong>important company documents</strong>.</li>
+                        <li class="splash-scenarios-list-item">Create an interactive, shared <strong>CRM database</strong>.</li>
+                        <li class="splash-scenarios-list-item"><strong>Embed</strong> interactive charts and graphs anywhere.</li>
+                        <li class="splash-scenarios-list-item">And many more use-cases!</li>
+                    </ul>
+                </div>
+            </div><!-- .row -->
+        </div><!-- .container-fluid -->
+
+    </main><!-- #main -->
+</div><!-- #primary -->
+{% endblock %}
+
+{% block footer %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <h2 class="splash-footer-intro text-center">Arrays is currently in beta development. We offer pilot programs where we will work closely with you and your team to create your first Arrays website. <a href="mailto:info@arrays.co">Contact us</a> to learn more, or sign up below to stay in touch.</h2>
+            </div>
+        </div><!-- .row -->
+
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="site-newsletter">
+                    <form class="form-horizontal" action="//schemadesign.us6.list-manage.com/subscribe/post?u=2fd33cc7443569e2872629af8&amp;id=91145c5717" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="form-group">
+                            <div class="col-sm-7 col-xs-8">
+                                <input type="email" class="form-control input-lg input-subscribe required email" id="input-subscribe" placeholder="Your email address" value="" name="EMAIL" id="mce-EMAIL">
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display:none"></div>
+                                    <div class="response" id="mce-success-response" style="display:none"></div>
+                                </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_2fd33cc7443569e2872629af8_91145c5717" tabindex="-1" value=""></div>
+                            </div>
+                            <div class="col-sm-5 col-xs-4">
+                                <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-lg btn-submit btn-inverse color-brand btn-block">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- .row -->
+
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+                <h1 class="site-title splash-footer-logo"><span class="sr-only">Arrays</span><img src="/images/arrays-logo.svg" class="img-responsive site-logo" alt="Arrays logo" /></h1>
+            </div>
+        </div><!-- .row -->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="site-info">
+                    &copy; 2016&ndash;17 Arrays Software, LLC &bull; Alpha Release &bull; <a href="mailto:{{ 'Arrays<info@arrays.com>' | urlencode }}">info@arrays.com</a> <a href="https://www.facebook.com/arraysapp/" target="_blank"><span class="icon-facebook" aria-hidden="true"></span></a> <a href="https://twitter.com/arraysapp" target="_blank"><span class="icon-twitter" aria-hidden="true"></span></a> <a href="https://www.instagram.com/arraysapp/" target="_blank"><span class="icon-instagram" aria-hidden="true"></span></a>
+                </div>
+            </div>
+        </div><!-- .row -->
+    </div><!-- .container-fluid -->
+{% endblock %}

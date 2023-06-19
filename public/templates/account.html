@@ -1,0 +1,14 @@
+<div class="process-data"
+    ng-class="{ 'show': (team.subscription.state !== 'active' && team.subscription.state !== 'canceled' && !team.superTeam) }"><a href="dashboard/account/billing">Start your free trial</a> and finish setting up your account
+</div>
+<header>
+    <h1>Account Settings</h1>
+</header>
+
+<div class="array-content account">
+
+    <ng-include src="'templates/blocks/account.nav.html'"></ng-include>
+
+    <div ui-view class="ext-content"></div>
+
+</div>

@@ -1,0 +1,209 @@
+{% set currentView = "gallery" %}
+
+
+
+{% extends "../layout/array.html" %}
+
+{% import "../partials/dropdown.html" as dropdown %}
+{% import "../partials/search.html" as search %}
+{% import "../partials/filter.html" as filter %}
+{% import "../partials/pagination.html" as pagination %}
+
+{% block headSuffix %}
+    <title>Arrays - {{ arrayTitle }}</title>
+{% endblock %}
+
+{% block content %}
+    <section class="array">
+
+        <header class="array-header header-shadow">
+            <div class="container-fluid">
+                <h1 class="array-title">{{ arrayTitle }}{% if isPreview %}<span class="preview-indicator"> (preview)</span>{% endif %}</h1>
+                <div class="array-meta">
+                    {% if team.subdomain | length %}<a class="array-meta-about color-brand" href="{{ addSubdomain(team.subdomain) }}">{{ team.title }}</a>{% endif %}
+                    <span class="array-meta-divider toggle-info-header"><a data-toggle="modal" data-target="#headerModal" class="array-meta-about color-brand">Info</a>
+                </div>
+            </div>
+        </header><!-- .array-header -->
+
+        <!-- Array Header Modal -->
+        <div class="modal header-modal fade" id="headerModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h1 class="array-title">{{ arrayTitle }}{% if isPreview %}<span class="preview-indicator"> (preview)</span>{% endif %}</h1>
+              </div>
+
+              <div class="modal-body">
+                <ul>
+                  {% if team.subdomain | length %}<li class="modal-header-label">Team</li>
+                  <li><a class="color-brand" href="{{ addSubdomain(team.subdomain) }}">{{ team.title }}</a></li>{% endif %}
+                  {% if sourceDocURL %}<li class="modal-header-label">Source</li>
+                  <li><a href="{{ sourceDocURL }}" target="_blank" class="array-meta-about color-brand">{{ sourceDocURL }}</a></li>{% endif %}
+                  <li class="modal-header-label">Last Updated</li>
+                  <li class="array-meta-updated">Updated {{ sourceDoc.dateOfLastImport | dateFormattedAs_monthDayYear_array }}</li>
+                  <li class="modal-header-label">Number of Items</li>
+                  <li>{{ sourceDoc.numberOfRows | comma }}</li>
+                  {% if description %}<li class="modal-header-label">Description</li>
+                  <li><p>{{description}}</p></li>{% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if view_description %}
+           <div class="array-description-wrapper">
+               <p class="array-description">{{ view_description }}</p>
+           </div>
+        {% endif %}
+
+
+
+
+        <div id="array-controls" class="array-controls">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="sort-bar clearfix {{ 'has-description' if view_description }}">
+
+                            <nav class="sort-bar-left pull-left" role="navigation">
+
+                                <div class="sort-control sort-direction">
+                                    {% if sortDir == "Descending" or (not sortDir and defaultSortOrderDescending) %}
+                                        <a href="{{ routePath_base | constructedRoutePath(filterObj, {
+                                            searchCol: searchCol,
+                                            searchQ: searchQ,
+                                            sortBy: sortBy,
+                                            sortDir: 'Ascending',
+                                            page: onPageNum if onPageNum != 1 else null }) }}"><span class="icon-sort-descending sort-direction-icon" aria-hidden="true"></span></a>
+                                    {% else %}
+                                        <a href="{{ routePath_base | constructedRoutePath(filterObj, {
+                                            searchCol: searchCol,
+                                            searchQ: searchQ,
+                                            sortBy: sortBy,
+                                            sortDir: 'Descending',
+                                            page: onPageNum if onPageNum != 1 else null }) }}"><span class="icon-sort-ascending sort-direction-icon" aria-hidden="true"></span></a>
+                                    {% endif %}
+                                </div>
+
+                                {{
+                                dropdown.default(
+                                    'Sort By',
+                                    sortBy if sortBy else defaultSortByColumnName_humanReadable,
+                                    colNames_orderedForGallerySortByDropdown,
+                                    routePath_base | constructedRoutePath(filterObj, {
+                                        searchCol: searchCol,
+                                        searchQ: searchQ,
+                                        page: onPageNum if onPageNum != 1 else null,
+                                        sortDir: sortDir,
+                                        sortBy: ''
+                                    })
+                                )
+                                }}
+
+                            </nav>
+
+                            <div class="sort-bar-right pull-right">
+                                {{
+                                    search.default(
+                                    routePath_base | constructedRoutePath(filterObj),
+                                    searchCol if searchCol else "Object Title",
+                                    colNames_orderedForSortByDropdown,
+                                    searchQ if searchQ else "",
+                                    sortBy,
+                                    sortDir,
+                                    filterObj
+                                )
+                                }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!-- .row -->
+            </div><!-- .container-fluid -->
+
+            {% if isFilterActive %}
+                {{
+                filter.default(displayTitleOverrides,
+                    routePath_base | constructedRoutePath(null, {
+                        searchQ: searchQ,
+                        searchCol: searchCol,
+                        sortDir: sortDir,
+                        sortBy: sortBy}),
+                    filterObj,
+                    truesByFilterValueByFilterColumnName_forWhichNotToOutputColumnNameInPill
+                )
+                }}
+            {% endif %}
+
+        </div><!-- #array-controls -->
+
+        <div class="array-content">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="filter-count">
+                            <span>{% if resultsOffset > 0 %}{{ resultsOffset + 1 }} &ndash; {% endif %}{{ (resultsOffset + (docs | length)) | comma }} of {{ nonpagedCount | comma }} Result{{ "s" if docs | length != 1 else "" }} in this set</span>
+                        </div>
+
+                        <div class="gallery">
+                            <ul class="gallery-grid">
+
+
+                                {% for doc in docs %}
+
+                                    {% if hasThumbs and doc.rowParams[fieldKey_medThumbImageURL] %}
+                                        {% include "../partials/gallery_item_image.html" %}
+                                    {% else %}
+                                        {% include "../partials/gallery_item_text.html" %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div><!-- .gallery -->
+
+                        {% set lastPage = numPages | int %}
+                        {% set currentPage = onPageNum | int %}
+
+                        {% if lastPage > 1 %}
+                        <nav class="gallery-pagination">
+                            {{
+                            pagination.default(
+                                routePath_base | constructedRoutePath(filterObj, {
+                                    searchQ: searchQ,
+                                    searchCol: searchCol,
+                                    sortDir: sortDir,
+                                    sortBy: sortBy}),
+                                lastPage,
+                                currentPage
+                            )
+                            }}
+                        </nav>
+                        {% endif %}
+
+                    </div>
+                </div><!-- .row -->
+            </div>
+
+        </div><!-- .array-content -->
+
+    </section>
+{% endblock %}
+
+{% block footer %}
+    {% include "../partials/footer.html" %}
+{% endblock %}}
+
+{% block inlineScript %}
+    {{ super() }}
+
+    <script type="text/javascript" src="/vendors/scrollmagic/scrollmagic/minified/ScrollMagic.min.js"></script>
+    <script type="text/javascript" src="/javascripts/gallery.js"></script>
+    <script type="text/javascript" src="/javascripts/banner.js"></script>
+{% endblock %}

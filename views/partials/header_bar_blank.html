@@ -1,0 +1,117 @@
+{% if brandColor %}
+<style scoped>
+    .color-brand,
+    a.color-brand:hover,
+    a.color-brand:focus,
+    a.color-brand:active,
+    .sidebar-filter-toggle .color-brand {
+        color: {{ brandColor }};
+    }
+
+    .color-brand-hover:hover,
+    .dropdown-toggle:hover .color-brand-hover,
+    .open .color-brand-hover,
+    .search-toggle:hover .color-brand-hover,
+    .search-toggle.search-active .color-brand-hover {
+        color: {{ brandColor }};
+    }
+
+    .background-color-brand,
+    #page .background-color-brand-hover:hover,
+    #page .background-color-brand-hover:focus,
+    #page .background-color-brand-hover:active,
+    #page .background-color-brand-hover > a:hover,
+    #page .background-color-brand-hover > a:focus,
+    #page .background-color-brand-hover > a:active,
+    #page .background-color-brand-hover.active > a {
+        background-color: {{ brandColor }};
+    }
+
+    .border-color-brand,
+    .border-color-brand-hover:hover {
+        border-color: {{ brandColor }};
+    }
+
+    .border-top-color-brand {
+        border-top-color: {{ brandColor }};
+    }
+</style>
+{% endif %}
+
+
+
+
+
+<header id="masthead" class="site-header hidden-print" role="banner">
+
+    <div class="w-nav">
+      <div class="w-container w-bottom-shadow">
+        <div class="container-fluid">
+          <a class="arrays-logo" href="{{marketing_url}}">
+            <img sizes="(max-width: 767px) 100vw, 210px" src="https://s3-us-west-2.amazonaws.com/arraysassets/Logo_Header.png" width="210" />
+          </a>
+
+          <ul class="nav navbar-nav navbar-right header-blank-right hide-mobile">
+            <li>
+                <a class="header-blank-link {{ 'current-page' if currentView == 'create' }}" href={{explore_url}}>Explore</a>
+            </li>
+            <li>
+                <a class="header-blank-link" href="https://www.arrays.co/news">News</a>
+            </li>
+            <li>
+                <a class="header-blank-link" href="https://www.arrays.co/pricing">Pricing</a>
+            </li>
+
+            {% if user %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle user-initial-nav" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    <span class="user-initial">{{user.firstName.slice(0,1).toUpperCase()}}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="background-color-brand-hover"><a href="/dashboard">Account Settings</a></li>
+                    <li class="background-color-brand-hover"><a class="pointer" id="logout" >Log Out</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="w-login-container">
+                <a class="pill-link pill-hollow" href="/auth/login">Log In</a>
+            </li>
+            <li class="w-signup-container">
+                {% if env.NODE_ENV == 'production' %}
+                <a class="pill-link pill-filled" href="https://www.arrays.co/signup">Sign Up</a>
+                {% else %}
+                <a class="pill-link pill-filled" href="/auth/login">Sign Up</a>
+                {% endif %}
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="w-nav-burger">
+          <a class="w-burger-menu" href="#">
+            <i id="menu-expand" class="icon-menu"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-nav-overlay">
+      <nav class="mobile-nav-menu">
+        <a class="w-mobile-link" href="{{explore_url}}">Explore</a>
+        <a class="w-mobile-link" href="https://www.arrays.co/news">News</a>
+        <a class="w-mobile-link" href="https://www.arrays.co/pricing">Pricing</a>
+        {% if user %}
+        <a class="w-mobile-link" href="/dashboard">Account Settings</a>
+        <a class="w-mobile-link pointer" id="logout">Log Out</a>
+        {% else %}
+        <a class="w-mobile-link" href="/auth/login">Log In</a>
+        {% if env.NODE_ENV == 'production' %}
+        <a class="w-mobile-link" href="https://www.arrays.co/signup">Sign Up</a>
+        {% else %}
+        <a class="w-mobile-link" href="/auth/login">Sign Up</a>
+        {% endif %}
+        {% endif %}
+      </nav>
+    </div>
+
+</header>

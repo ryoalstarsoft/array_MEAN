@@ -1,0 +1,37 @@
+<md-content md-no-ink>
+
+    <div ng-if="loaded">
+
+        <div ng-if="subscription.state !== 'expired'">
+            <ng-include src="'templates/blocks/account.billing.plan.html'"></ng-include>
+        </div>
+
+        <p ng-if="subscription.trial_days_left > 0 && subscription.state === 'active'">Your free trial expires in <strong>{{ subscription.trial_days_left }} {{ subscription.trial_days_left | pluralize: "day" : "days" }}</strong>.</p>
+
+        <div ng-if="billing.exists">
+        <h3>Payment Info</h3>
+        <p>{{ paymentMethod }}&emsp;<a ui-sref="dashboard.account.payment">Edit Payment Info</a></p>
+        </div>
+
+        <hr ng-if="billing.exists">
+
+        <div ng-if="subscription.state === 'canceled'">
+            <h3>Reactivate Subscription</h3>
+
+            <md-button class="md-dashboard" ng-click="reactivateSubscription()">
+                <span class="btn-label">Reactivate Subscription</span>
+            </md-button>
+        </div>
+        
+        <div ng-if="subscription.state === 'active'">
+            <a ui-sref="dashboard.account.cancel" class="warn">Cancel Subscription</a>
+            <hr>
+        </div>
+
+        <div ng-if="subscription.state !== 'canceled'">
+            <ng-include src="'templates/blocks/account.billing.plans.html'"></ng-include>
+        </div>
+
+    </div>
+
+</md-content>

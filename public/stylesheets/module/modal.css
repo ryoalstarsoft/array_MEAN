@@ -1,0 +1,95 @@
+/* @override 
+	http://localhost:9080/stylesheets/module/modal.css */
+
+.modal-backdrop.in {
+    opacity: 0.4;
+}
+
+.modal-content {
+    border-color: #ffffff;
+    border-radius: 4px;
+    background-color: var(--color-background);
+    box-shadow: var(--box-shadow-dark);
+}
+
+.modal-header {
+    padding: 20px 30px 0;
+    border-bottom-style: none;
+}
+
+.modal-header .close {
+    width: 1em;
+    margin-top: 0.5em;
+}
+
+.modal-title {
+    padding-bottom: 20px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-text-ultralight);
+    color: #000000;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 1.1;
+}
+
+.modal-body {
+    padding: 0 30px 30px;
+}
+
+.modal-body h3 {
+    margin-top: 30px;
+    color: var(--color-text-dark);
+    font-weight: normal;
+    font-size: 24px;
+}
+
+.modal-body #facebook {
+    display: inline-block;
+}
+
+.modal-body pre {
+    overflow-x: auto;
+    border-radius: 0;
+    background-color: #ffffff;
+    white-space: nowrap;
+    font-size: 24px;
+}
+
+.btn-social {
+    position: relative;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    border: 1px solid #ffffff;
+    box-shadow: var(--box-shadow);
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.btn-social:hover {
+    color: white;
+}
+
+.btn-social [class^="icon-"] {
+    margin-right: 20px;
+}
+
+.btn-social [class^="icon-"]:after {
+    position: absolute;
+    top: 0;
+    margin-left: 5px;
+    width: 1px;
+    height: 100%;
+    background-color: #ffffff;
+    content: "";
+}
+
+.md-dialog-backdrop.md-opaque {
+    z-index: 1100;
+}
+.md-dialog-container {
+    z-index: 1100;
+}

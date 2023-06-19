@@ -1,0 +1,73 @@
+/* @override 
+	http://localhost:9080/stylesheets/clients/isb.css */
+
+
+/*.icon-tile {
+    width:90px !important;
+    height:90px;
+}*/
+.icon-tile-isb-brain {
+    background-image: url(/images/clients/isb/brain.svg);
+}
+
+.icon-tile-isb-cancers {
+    background-image: url(/images/clients/isb/cancer.svg);
+}
+
+.icon-tile-isb-cell-dynamics {
+    background-image: url(/images/clients/isb/cell.svg);
+}
+
+.icon-tile-isb-computational-biology {
+    background-image: url(/images/clients/isb/compbio.svg);
+}
+
+.icon-tile-isb-environment {
+    background-image: url(/images/clients/isb/environment.svg);
+}
+
+.icon-tile-isb-infectious-disease {
+    background-image: url(/images/clients/isb/infectious.svg);
+}
+
+.icon-tile-isb-p4-medicine {
+    background-image: url(/images/clients/isb/p4med.svg);
+}
+
+.icon-tile-isb-proteomics {
+    background-image: url(/images/clients/isb/proteomics.svg);
+}
+
+/* @group Quantity Queries */
+
+.gallery-item-text-inner [class^="icon-tile"]:nth-last-child(n+2) ~ img:last-child {
+    margin-right: 0;
+}
+
+.gallery-item-text-inner [class^="icon-tile"]:nth-last-child(n+3) ~ img:last-child {
+    margin-right: 0;
+}
+
+/* @end Quantity Queries */
+
+/* @group Object Show */
+
+.object-header-icons img {
+    margin-right: 15px;
+}
+
+/* @end Object Show */
+
+/* @group Custom Navbar Color */
+
+.source-isb_library-r1 .navbar-default,
+.source-ISB_keyword_frequency-r1 .navbar-default {
+    background-color: #ccc;
+}
+
+.source-isb_library-r1.array-controls-pinned .navbar-default,
+.source-ISB_keyword_frequency-r1.array-controls-pinned .navbar-default {
+    background-color: white;
+}
+
+/* @end Custom Navbar Color */

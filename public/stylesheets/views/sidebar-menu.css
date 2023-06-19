@@ -1,0 +1,115 @@
+/* Menu Nav Bar */
+
+md-sidenav {
+    position: fixed !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 960px)  {
+    md-sidenav {
+        position: relative !important;
+    }
+}
+.md-sidenav-backdrop {
+    position: fixed !important;
+}
+
+.sidebar-menu {
+    margin: 24px;
+    margin-top: var(--navbar-height-mobile);
+    padding-top: 12px;
+}
+@media (min-width: 768px) {
+    .sidebar-menu {
+        margin-top: var(--navbar-height-tablet);
+    }
+}
+.dashboard-container md-sidenav {
+    width: 15em;
+}
+
+/*not collapsed*/
+@media (min-width: 960px)  {
+    .sidebar-menu {
+        /*manually align to baseline of subheader*/
+        padding-top: 114px;
+    }
+}
+
+/*dont do a transition when resizing the window*/
+/*md-sidenav.md-closed-add,*/
+/*md-sidenav.md-closed-remove,*/
+/*md-sidenav.md-closed-add.md-closed-add-active,*/
+/*md-sidenav.md-closed-remove.md-closed-remove-active,*/
+md-sidenav.md-locked-open-remove-active,
+md-sidenav.md-closed.md-locked-open-add-active {
+    transition: none !important;
+}
+
+/*menu items*/
+
+.sidebar-menu .nav > li > a,
+.sidebar-menu .nav > li > span {
+    position: relative;
+    /*letter-spacing: 2px;*/
+    /*font-size: 1.1em;*/
+    /*font-size: 16px;*/
+    line-height: 1em;
+
+    display: inline-block;
+    margin-bottom: 1px;
+    padding: 12px;
+    width: 100%;
+    /*color: #fff;*/
+    color: var(--color-text-dark);
+    border-radius: 4px;
+
+    transition: background-color 0.3s, color 0.15s;
+}
+
+.sidebar-menu .nav > li.active > a {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.sidebar-menu .nav > li:not(.active) > a:hover,
+.sidebar-menu .nav > li:not(.active) > a:focus {
+    background-color: #eeeeee;
+    color: var(--color-text-dark);
+}
+
+/*treat View Website as link*/
+.sidebar-menu .nav li.sidebar-link > span > a:hover {
+    color: var(--color-primary);
+}
+
+.sidebar-menu .nav .sidebar-label {
+    /* style as if disabled, for now */
+    color: var(--color-text-med);
+    pointer-events: none;
+}
+
+.sidebar-menu hr {
+    margin: 12px;
+}
+
+.dashboard-menu-toggle svg {
+	width: 18px;
+	/*height: 24px;*/
+}
+ul.nav.active .dashboard-menu-toggle svg g {
+    fill: white;
+}
+
+@media (min-width: 768px)  {
+	.navbar-nav > li > a.dashboard-menu-toggle {
+	    padding: 20px;
+		padding-top: 22px;
+	}
+	.dashboard-menu-toggle svg {
+		width: 24px;
+	}
+}
+
+
+/* Menu Nav Bar */

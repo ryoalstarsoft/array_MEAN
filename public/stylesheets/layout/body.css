@@ -1,0 +1,141 @@
+/* @override
+    http://localhost:9080/stylesheets/layout/body.css */
+
+.site {
+    overflow-x: hidden;
+}
+
+.site-content {
+    margin-top: var(--navbar-height-mobile);
+    min-height: calc(100vh - 200px);
+}
+
+.container-fluid {
+    max-width: 1280px;
+}
+
+@media (min-width: 768px) {
+    .container-fluid {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+
+    .site-content {
+        margin-top: var(--navbar-height-tablet);
+    }
+}
+
+.array.array-create.app-ready {
+    height: auto;
+}
+
+/* @share button*/
+.navbar .share-link.btn-splash {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .dropdown-menu .share-link {
+        display: none;
+    }
+
+    .navbar .share-link.btn-splash {
+        display: block;
+        color: #ffffff;
+        background-color: #000000;
+        border: none;
+        margin-top: 13px;
+        margin-bottom: 0;
+        padding: 8px 20px;
+        box-shadow: none;
+    }
+
+    .navbar .share-link.btn-splash:hover,
+    .navbar .share-link.btn-splash:focus {
+        /*Nullify hover effects from .btn-splash*/
+        background-color: #000;
+        color: #fff;
+    }
+}
+
+
+/* @group Footer */
+
+.site-footer {
+    padding-top: 70px;
+    padding-bottom: 25px;
+    color: #ffffff;
+}
+
+.site-footer .site-title {
+    margin: 0;
+}
+
+.site-footer .site-logo {
+    margin: 13px 0 20px;
+}
+
+.site-info {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.site-info a {
+    color: #ffffff;
+}
+
+.input-subscribe,
+.btn-submit {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 60px;
+    font-family: var(--font-family-calibre);
+}
+
+.input-subscribe {
+    margin-bottom: 10px;
+    border-color: #ffffff;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.input-subscribe:focus {
+    border-color: #ffffff;
+    box-shadow: none;
+}
+
+.input-subscribe::-webkit-input-placeholder {
+    color: #ffffff;
+}
+
+.input-subscribe:-moz-placeholder {
+    color: #ffffff;
+}
+
+.input-subscribe::-moz-placeholder {
+    color: #ffffff;
+}
+
+.input-subscribe:-ms-input-placeholder {
+    color: #ffffff;
+}
+
+.btn-inverse {
+    border-color: #ffffff;
+    background-color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* @end footer */
+
+/* Don't display User Engage Chat app*/
+.civ-chat-window {
+    display: none;
+}

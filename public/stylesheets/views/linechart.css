@@ -1,0 +1,61 @@
+.linechart svg .axis line, .linechart svg .axis path {
+    shape-rendering: crispEdges;
+}
+
+.linechart .y-axis path {
+    visibility: hidden;
+}
+
+.linechart svg.viewport .line {
+    fill: none;
+    stroke-width: 2;
+}
+
+.linechart svg.viewport line.pointer {
+    stroke: #c9c9c9;
+    stroke-width: 1;
+}
+
+.linechart svg.navigation .line {
+    fill: none;
+    stroke-width: 1;
+}
+
+.linechart svg.viewport .y-axis g.tick:first-child line {
+    display: none;
+}
+
+.linechart svg.viewport .x-axis line, .linechart svg.viewport .x-axis path {
+    stroke: #979797;
+}
+
+.linechart .brush-background {
+    fill-opacity: .1;
+    stroke: #d8d8d8;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.linechart circle.handle {
+    fill: #c3c3c3;
+    stroke: #fff;
+    stroke-width: 1;
+}
+
+.linechart rect.handle {
+    fill: #c3c3c3;
+}
+
+.linechart .brush .extent {
+    fill: #fff;
+    fill-opacity: 0;
+    shape-rendering: crispEdges;
+}
+
+.linechart svg.viewport circle.data-point {
+    fill: transparent;
+}
+
+.linechart .viewport rect, .linechart .viewport .tick text {
+    cursor: pointer;
+}
